@@ -1,29 +1,52 @@
-# MNIST Classifier with Burn (Rust)
+# 🔢 MNIST Digit Classifier — Burn (Rust)
 
-A simple MNIST handwritten digit classifier built using the **Burn** deep learning framework in Rust.
+> An interactive MNIST handwritten digit classifier built with the [Burn](https://burn.dev/) deep learning framework in Rust. Train a CNN model, run inference from the CLI, or draw digits in the browser!
 
-## Commands
+## ✨ Features
 
-### Run Training
-To start the training loop (using the CPU ndarray backend):
+- **CNN Architecture** — Conv2d → MaxPool → Conv2d → MaxPool → FC → FC with dropout
+- **Interactive Web Demo** — Draw digits on a canvas and get real-time predictions
+- **CLI Inference** — Predict digits with ASCII art visualization
+- **Fully in Rust** — Training, inference, and web server in a single codebase
+
+## 🏗️ Model Architecture
+
+```
+Input [1×28×28]
+  → Conv2d(1→8, 3×3, same) → ReLU → MaxPool(2×2)    → [8×14×14]
+  → Conv2d(8→16, 3×3, same) → ReLU → MaxPool(2×2)   → [16×7×7]
+  → Flatten                                           → [784]
+  → Linear(784→128) → ReLU → Dropout(0.5)
+  → Linear(128→10) → Softmax
+```
+
+## 🚀 Getting Started
+
+### Train the Model
+
 ```sh
 cargo run --release
 ```
-*Note: Always run with the `--release` flag so that compiling takes advantage of compiler optimizations for tensor math.*
+
+> **Note:** Always use `--release` for optimized tensor math performance.
 
 ### Run Tests
-To run the unit tests (verifies model shapes, data pipeline, and training config):
+
 ```sh
 cargo test
 ```
 
-### Run Inference (Predict Digits)
-Once the model is trained and saved in `./target/mnist-model/`, you can load it to run inference on test images by passing the `--predict` flag:
+### Run CLI Inference
+
+Once trained, predict digits from the MNIST test set:
+
 ```sh
 cargo run --release -- --predict
 ```
 
-When run, the program will render a sample test digit in ASCII Art on your console and output the model's prediction:
+<details>
+<summary>📝 Example Output</summary>
+
 ```text
 Loading model for inference...
 
@@ -53,20 +76,32 @@ Target Label (Ground Truth): 7
 Model Prediction           : 7
 ```
 
-### Run Interactive Web Server (Drawing Pad)
-Once the model is trained, you can start the interactive browser-based drawing board:
+</details>
+
+### Run Interactive Web Server
+
+Start the browser-based drawing pad:
+
 ```sh
 cargo run --release -- --serve
 ```
-Then, open your web browser to **`http://127.0.0.1:3000`** to draw custom digits with your mouse/touch and view real-time model predictions!
 
-## Expected Results
+Then open **[http://127.0.0.1:3000](http://127.0.0.1:3000)** to draw digits and see real-time predictions!
 
-After running the 5 epochs of training, the MLP model converges to the following performance on the MNIST validation/test dataset:
+## 📊 Results
 
-*   **Validation Accuracy**: `95.53%`
-*   **Validation Loss**: `0.209`
+After 5 epochs of training, the CNN model achieves the following on the MNIST validation set:
 
-## References
+| Metric              | Value    |
+|---------------------|----------|
+| **Validation Accuracy** | `~97%+`  |
+| **Validation Loss**     | `~0.10`  |
 
-*   This project is based on and references the official [tracel-ai/burn MNIST example](https://github.com/tracel-ai/burn/blob/main/examples/mnist/examples/mnist.rs).
+## 📚 References
+
+- [Burn — Deep Learning Framework for Rust](https://burn.dev/)
+- [tracel-ai/burn MNIST example](https://github.com/tracel-ai/burn/blob/main/examples/mnist/examples/mnist.rs)
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
