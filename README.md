@@ -2,6 +2,8 @@
 
 > An interactive MNIST handwritten digit classifier built with the [Burn](https://burn.dev/) deep learning framework in Rust. Train a CNN model, run inference from the CLI, or draw digits in the browser!
 
+![image](assets/web_demo_mnist.png)
+
 ## ✨ Features
 
 - **CNN Architecture** — Conv2d → MaxPool → Conv2d → MaxPool → FC → FC with dropout
@@ -98,8 +100,6 @@ cargo run --release -- --serve
 ```
 
 Then open **[http://127.0.0.1:3000](http://127.0.0.1:3000)** to draw digits and see real-time predictions!
-
-![image](assets/web_demo_mnist.png)
 
 ## 📚 References
 
