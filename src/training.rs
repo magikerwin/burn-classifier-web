@@ -10,7 +10,7 @@ use burn::{
     nn::loss::CrossEntropyLossConfig,
     optim::AdamConfig,
     prelude::*,
-    record::CompactRecorder,
+    record::{CompactRecorder, BinFileRecorder, FullPrecisionSettings},
     tensor::backend::AutodiffBackend,
     train::{
         metric::{AccuracyMetric, LossMetric},
@@ -91,8 +91,13 @@ pub fn train<B: AutodiffBackend, D1, D2>(
 
     // Save the final trained model parameters (weights and biases) to disk
     model_trained
+        .clone()
         .save_file(format!("{artifact_dir}/model"), &CompactRecorder::new())
         .expect("Model saving failed");
+
+    model_trained
+        .save_file(format!("{artifact_dir}/model"), &BinFileRecorder::<FullPrecisionSettings>::new())
+        .expect("Model saving with BinFileRecorder failed");
 }
 
 /// Implement the TrainStep trait for the Model to specify how it performs a single training iteration.
